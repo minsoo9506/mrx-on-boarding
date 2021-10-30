@@ -25,3 +25,7 @@ curl -X POST \
 
 ## Docker compose
 - 위에서 만든 dockerfile을 이용해 `docker-compose.yml`를 작성하기
+
+```bash
+docker-compose up
+```
