@@ -40,11 +40,11 @@ spec:
 
 - 명령어 한눈에 보기
 ```bash
-`kubectl create -f 06-rc-ngix.yml`
-`kubectl get rc(또는 replicationcontrollers)`
-`kubectl get pod --show-labels`
-`kubectl edit rc rc-nginx`
-`kubectl scale rc rc-nginx --replicas=2`:
+kubectl create -f 06-rc-ngix.yml
+kubectl get rc
+kubectl get pod --show-labels
+kubectl edit rc rc-nginx
+kubectl scale rc rc-nginx --replicas=2
 ```
 - `kubectl create -f 06-rc-ngix.yml`: pod가 3개 실행된다.
 - `kubectl get rc(또는 replicationcontrollers)`: 실행중인 rc를 보여준다.
