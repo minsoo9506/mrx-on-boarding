@@ -1,4 +1,5 @@
 ## Controller
+- 각 controller마다 아래의 내용이외에 다양한 옵션들이 존재한다. 공홈을 통해 필요할 때마다 보고 yaml파일을 작성하도록 하자.
 - Index
     - ReplicationController
     - ReplicaSet
@@ -186,3 +187,16 @@ spec:
 - job을 지우면 completed되었던 pod들도 지워진다.
 
 ### CronJob
+- 사용자가 원하는 시간에 Job을 실행
+- job 컨트롤럴로 실행할 app pod를 주기적으로 반복해서 실행
+- linux의 cronjob의 스케쥴링 기능을 job controller에 추가한 API
+- 사용예시
+  - data backup, send email, cleaning tasks
+- cronjob schedule `* * * * *`
+  - minutes (0 ~ 59)
+  - hours (0 ~ 23)
+  - day of the month (1 ~ 31)
+  - month (1 ~ 12)
+  - day of the week (0 ~ 6) : 0이 일요일
+  - `*`: 전체를 의미
+  - 범위도 지정가능 (예) `* * * * 1-6`)
