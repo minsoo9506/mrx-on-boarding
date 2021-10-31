@@ -116,7 +116,6 @@ kubectl rollout undo deploy <deploy_name>
 ```
 - `--record`: 업데이트 과정을 history로 기록
 - `kubectl set image deploy <deploy_name> <container_name>=<new_version_image>`: Rolling Update
-    - 예)
     - rolling update를 하면 새로운 pod를 하나씩 만들어가고 원래 pod를 하나씩 지워간다.
 - `kubectl rollout history deploy <deploy_name>`: 업데이트 과정 확인 가능
 - `kubectl rollout pause(resume) deploy <deploy_name>`: rolling update 일시정지/다시시작
@@ -136,8 +135,13 @@ metadata:
 spec:
 ...
 ```
-
 ### DaemonSet
+- 전체 노드에서 pod가 한 개씩 실행되도롤 보장
+- `replicas`가 필요없다.
+- 그래서 node 로그 에이전트에 적합하다.
+- rolling update도 가능하다. `edit`명령어를 통해 내용을 수정하면 바로 rolling update한다. (당연히 roll back도 가능)
+- 명령어는 이전까지 했던 것들 이용하면 된다.
+
 ### StatefulSet
 ### Job
 ### CronJob
