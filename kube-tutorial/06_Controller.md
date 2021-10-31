@@ -97,8 +97,46 @@ kubectl delete rs rs-nginx --cascade=false
     - 기존의 pod들이 다시 RS의 control을 받는다.
     - `labels`, `selector` 가 중요한 기준!
 
-
 ### Deployment
+- 목적 : rolling update & back
+    - rolling update: pod를 점진적으로 새로운 것으로 업데이트하여 서비스 중단 없이 업데이트 하는 것
+- RS를 컨트롤해서 pod수를 조절한다.
+- yaml파일도 RS랑 다 같은데 `kind: Deployment`만 다르다.
+- pod의 이름을 보면 `deploy이름-rs이름-랜덤이름` 이렇게 이루어져있다.
+- RS를 지우면 Deployment가 다시 RS를 만들고 RS는 다시 pod를 만든다.
+- 명령어 한눈에 보기
+```bash
+kubectl create -f deploy-nginx.yml --record
+kubectl get deploy
+kubectl set image deploy <deploy_name> <container_name>=<new_version_image> --record
+kubectl rollout history deploy <deploy_name>
+kubectl rollout pause deploy <deploy_name>
+kubectl rollout resume deploy <deploy_name>
+kubectl rollout undo deploy <deploy_name>
+```
+- `--record`: 업데이트 과정을 history로 기록
+- `kubectl set image deploy <deploy_name> <container_name>=<new_version_image>`: Rolling Update
+    - 예)
+    - rolling update를 하면 새로운 pod를 하나씩 만들어가고 원래 pod를 하나씩 지워간다.
+- `kubectl rollout history deploy <deploy_name>`: 업데이트 과정 확인 가능
+- `kubectl rollout pause(resume) deploy <deploy_name>`: rolling update 일시정지/다시시작
+- `kubectl rollout undo deploy <deploy_name>`: 다시 되돌리기
+    - 특정 history로 되돌리고 싶으면 `--to-revision=번호` flag 추가하면 된다.
+- 다른 방법
+    - yaml에 아래처럼 `annotations`를 추가
+    - rollout하고 싶을 경우 yaml파일 수정 (`annotations`, container version 수정)
+    - `apply` 명령어 실행: `kubectl apply -f deploy-nginx.yml`
+```yaml
+...
+kind: Deployment
+metadata:
+  name: deploy-nginx
+  annotations:
+    kubernetes.io/change-cause: version 1.14
+spec:
+...
+```
+
 ### DaemonSet
 ### StatefulSet
 ### Job
