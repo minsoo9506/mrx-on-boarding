@@ -152,4 +152,37 @@ spec:
 - 얘도 내용 수정하면 바로 pod들에 반영된다.
 
 ### Job
+- kubernetes는 pod를 running을 유지시켜준다. 즉, container가 죽으면(running이 아니면) 다시 restart해서 running하게 만든다.
+- 근데 항상 pod가 running중이여야 할까? 그건 아니다. 예를 들어, 백업용pod는? 계속 running일 필요는 없다.
+- Batch 처리하는 pod는 작업이 완료되면 종료된다. 이 때 Job controller가 pod의 성공적인 완료를 보장한다.
+```yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-example
+spec:
+#   completions: 4
+#   parallelism: 2
+#   activeDeadlineSeconds: 15
+  template:
+    spec:
+      containers:
+      - name: centos-container
+        image: centos:7
+        command: ["bash"]
+        args:
+        - "-c"
+        - "echo 'Hello World'; sleep 50; echo 'Bye'"
+      restartPolicy: Never
+  #     restartPolicy: OnFailure
+  # backoffLimit: 3
+```
+- `completions`: 해당 횟수를 batch실행, 5면 5개 pod가 실행된다.
+- `parallelism`: 동시에 running할 pod 수
+  - 다 끝나면 `completions`의 수  만큼 pod가 completed된 상태가 된다.
+- `activeDeadlineSeconds`: 해당 시간(초)동안 안되면 강제로 completed시킨다
+- `restartPolicy: Never`: pod를 다시 시작, 위의 파일로 pod을 만들고 50초가 지나기 전에 pod를 delete하면 임무가 끝나지 않아서(`echo 'Bye'`해야됨) 다시 pod가 생성된다. 임무를 다하면 pod가 사라지는 것은 아니고 completed 상태가 된다.
+- `restartPolicy: OnFailure`: pod가 아니라 container를 `backoffLimit`만큼 restart, 그래도 실패하면 pod가 삭제된다.
+- job을 지우면 completed되었던 pod들도 지워진다.
+
 ### CronJob
