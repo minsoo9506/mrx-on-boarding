@@ -143,5 +143,13 @@ spec:
 - 명령어는 이전까지 했던 것들 이용하면 된다.
 
 ### StatefulSet
+- pod의 상태를 유지해주는 컨트롤러
+  - pod의 이름
+  - pod의 볼륨(스토리지)
+- 예를 들어, RC를 통해 pod를 만들면 pod의 이름(정확히는 이름 뒤쪽)이 랜덤하게 지정된다. 이 중에 pod하나를 지우면 새로운 이름의 pod가 다시 생긴다. 그런데 `StatefulSet`은 이름을 0,1,2... 로 지정한다. 또한 특정 pod를 지우면 해당 이름의 pod가 바로 생성된다.
+- `spec`에 `serviceName`을 꼭 추가해야 한다.
+- `podManagementPolicy`를 통해서 만드는 방법 지정이 가능하다. (`OrderedReady`, `Parallel`)
+- 얘도 내용 수정하면 바로 pod들에 반영된다.
+
 ### Job
 ### CronJob
