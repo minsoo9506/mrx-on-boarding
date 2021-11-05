@@ -43,5 +43,8 @@ curl -X POST \
 ```
 
 ## Ingress
+- not yet
 
 ## ArgoCD
+- CI/CD를 같은 repo에 놓고 대신에 branch를 다르게 해서 진행한다.
+- restapi쪽 코드가 바뀌면 ArgoCD가 이를 알게끔 하기 위해 주로 docker image의 tag를 수정하여 commit해준다.
