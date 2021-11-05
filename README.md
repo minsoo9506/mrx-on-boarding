@@ -29,3 +29,19 @@ curl -X POST \
 ```bash
 docker-compose up
 ```
+
+## Helm
+- minikube와 바로 ip통신이 안된다.
+- `port-forward`를 해줘야 한다.
+```bash
+helm install restapi ./restapi/
+kubectl port-forward svc/restapi-restapi 8080:8080
+curl -X POST \
+    -H 'Content-Type: application/json' \
+    -d '{"name": "minsoo"}' \
+        http://localhost:8080/login
+```
+
+## Ingress
+
+## ArgoCD
