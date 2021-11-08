@@ -11,4 +11,5 @@ def show_name():
         return jsonify({"Answer" : "Who are u", "name" : name})
 
 if __name__ == "__main__":
+    print("Server is running")
     app.run(host="0.0.0.0", port="8080")
