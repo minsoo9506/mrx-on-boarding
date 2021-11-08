@@ -16,6 +16,14 @@ jobs:
     - name: Check out
       uses: actions/checkout@v2
 
+    - name: Docker meta
+      uses: crazy-max/ghaction-docker-meta@v1
+      with:
+        images: mrxminsoo/restapi
+        tag-semver: |
+          {{version}}
+          {{major}}.{{minor}}
+
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
       
@@ -28,8 +36,8 @@ jobs:
 
     - name: print
       run: |
-        echo ${{ steps.meta.outputs.tags }}
-        echo ${{ steps.meta.outputs }}
+        echo $steps.meta.outputs.tags
+        echo $steps.meta.outputs
 
     - name: Build and push
       uses: docker/build-push-action@v2
@@ -38,3 +46,4 @@ jobs:
         file: Dockerfile
         push: true
         tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
