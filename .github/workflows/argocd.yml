@@ -25,6 +25,7 @@ jobs:
       run: |
         pwd
         ls
+        ls Helm-file
 
     - name: Update Image Version in the related HelmChart values.yaml
       uses: fjogeleit/yaml-update-action@master
