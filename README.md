@@ -1,4 +1,4 @@
-[![Docker Image CI](https://github.com/minsoo9506/mrx-on-boarding/actions/workflows/docker-image.yml/badge.svg)](https://github.com/minsoo9506/mrx-on-boarding/actions/workflows/docker-image.yml)
+[![Docker Image CI](https://github.com/minsoo9506/mrx-on-boarding/actions/workflows/docker-image.yml/badge.svg?branch=master)](https://github.com/minsoo9506/mrx-on-boarding/actions/workflows/docker-image.yml) [![Commit For ArgoCD](https://github.com/minsoo9506/mrx-on-boarding/actions/workflows/argocd.yml/badge.svg)](https://github.com/minsoo9506/mrx-on-boarding/actions/workflows/argocd.yml)
 
 ## rest api 만들기
 - flask 이용하여 간단한 restapi 구현
@@ -46,5 +46,5 @@ curl -X POST \
 - not yet
 
 ## ArgoCD
-- CI/CD를 같은 repo에 놓고 대신에 branch를 다르게 해서 진행한다.
-- restapi쪽 코드가 바뀌면 ArgoCD가 이를 알게끔 하기 위해 주로 docker image의 tag를 수정하여 commit해준다.
+- `master` branch에서 restapi 관련 내용을 수정하고 push하면 git action으로 `ArgoCD` branch의 helm관련 `values.yml` 파일을 수정하고 push한다.
+- 그러면 해당 repo의 `ArgoCD` branch를 ArgoCD가 바라보고 있고 자동으로 syncronize한다. (CD)
