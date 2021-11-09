@@ -1,0 +1,29 @@
+name: Commit For ArgoCD
+
+on:
+  push:
+    branches: [ master ]
+    tags:
+      - 'v*.*.*'
+
+jobs:
+
+  build-push:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    # - name: Check out
+    #   uses: actions/checkout@v2
+
+    - name: Set env
+      run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/v}" >> $GITHUB_ENV
+
+    - name: Update Image Version in the related HelmChart values.yaml
+      uses: fjogeleit/yaml-update-action@master
+      with:
+        valueFile: 'values.yaml'
+        propertyPath: 'file.version'
+        value: ${{ env.RELEASE_VERSION }}
+        updateFile: true
+        message: 'Update Image Version to ${{ env.RELEASE_VERSION }}' 
