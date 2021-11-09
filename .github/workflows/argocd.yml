@@ -25,12 +25,12 @@ jobs:
       run: |
         pwd
         ls
-        ls Helm-file
+        ls helm-folder
 
     - name: Update Image Version in the related HelmChart values.yaml
       uses: fjogeleit/yaml-update-action@master
       with:
-        valueFile: 'Helm-file/values.yaml'
+        valueFile: 'helm-folder/values.yaml'
         propertyPath: 'backend.version'
         value: ${{ env.RELEASE_VERSION }}
         branch: ArgoCD
