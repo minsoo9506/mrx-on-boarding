@@ -31,7 +31,8 @@ jobs:
       uses: fjogeleit/yaml-update-action@master
       with:
         valueFile: 'helm-folder/values.yaml'
-        propertyPath: 'backend.version'
+        propertyPath: 'file.version'
         value: ${{ env.RELEASE_VERSION }}
         branch: ArgoCD
+        updateFile: True
         message: 'Update Image Version to ${{ env.RELEASE_VERSION }}' 
