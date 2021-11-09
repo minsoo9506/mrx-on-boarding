@@ -19,11 +19,14 @@ jobs:
     - name: Set env
       run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/v}" >> $GITHUB_ENV
 
+    - name: print
+      run: pwd
+
     - name: Update Image Version in the related HelmChart values.yaml
       uses: fjogeleit/yaml-update-action@master
       with:
-        valueFile: 'Helm-file/values.yaml'
-        propertyPath: 'file.version'
+        valueFile: 'ArgoCD/Helm-file/values.yaml'
+        propertyPath: 'backend.version'
         value: ${{ env.RELEASE_VERSION }}
-        updateFile: true
+        branch: ArgoCD
         message: 'Update Image Version to ${{ env.RELEASE_VERSION }}' 
