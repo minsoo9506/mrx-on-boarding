@@ -3,27 +3,30 @@ name: Commit For ArgoCD
 on:
   push:
     branches: [ master ]
-    tags:
-      - 'v*.*.*'
 
 jobs:
 
   cicd:
+
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
       - name: Create short SHA
         uses: benjlevesque/short-sha@v1.2
         id: short-sha
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
+
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.CR_PAT }}
+
       - name: Build and push docker
         uses: docker/build-push-action@v2
         with:
@@ -33,20 +36,24 @@ jobs:
           tags: |
             ghcr.io/minsoo9506/my-restapi:latest
             ghcr.io/minsoo9506/my-restapi:${{ steps.short-sha.outputs.sha }}
+
       - name: Install yq
         run: |
           wget https://github.com/mikefarah/yq/releases/download/v4.4.1/yq_linux_amd64 -O ./yq
           chmod +x ./yq
+
       - name: Change image tag on values.yaml
         run: |
           cat ./helm-folder/values.yaml | ./yq e '.image.tag="${{ steps.short-sha.outputs.sha }}"' - | tee ./helm-folder/values.yaml.tmp
           mv ./helm-folder/values.yaml.tmp ./helm-folder/values.yaml
+
       - name: Commit file
         run: |
           git config --local user.email "ghktjd15gh@gmail.com"
           git config --local user.name "minsoo9506"
           git add ./helm-folder/values.yaml
           git commit -m "Update docker image tag."
+          
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
