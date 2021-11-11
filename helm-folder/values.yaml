@@ -8,8 +8,8 @@ image:
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "072d11f"
-imagePullSecrets:
-  - name: test-ghcr
+  imagePullSecrets:
+    - name: test-ghcr
 nameOverride: ""
 fullnameOverride: ""
 serviceAccount:
