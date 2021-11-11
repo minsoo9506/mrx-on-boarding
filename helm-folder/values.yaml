@@ -5,10 +5,11 @@
 replicaCount: 1
 image:
   repository: ghcr.io/minsoo9506/my-restapi
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "072d11f"
-imagePullSecrets: []
+imagePullSecrets:
+  - name: test-ghcr
 nameOverride: ""
 fullnameOverride: ""
 serviceAccount:
