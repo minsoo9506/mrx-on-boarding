@@ -6,7 +6,7 @@ metadata:
     {{- include "restapi.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   {{- end }}
   selector:
     matchLabels:
@@ -18,7 +18,7 @@ spec:
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
+        - name: test-ghcr
       {{- end }}
       serviceAccountName: {{ include "restapi.serviceAccountName" . }}
       containers:
